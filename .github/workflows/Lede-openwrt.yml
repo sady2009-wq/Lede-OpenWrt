@@ -78,9 +78,9 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     # ============================================================
-    # diy-lede.sh 内容直接集成到这里（不再需要独立脚本文件）
+    # 自定义设置（替代 diy-lede.sh）
     # ============================================================
-    - name: 自定义设置（替换diy-lede.sh）
+    - name: 自定义设置
       run: |
         cd openwrt
         
@@ -102,7 +102,7 @@ jobs:
         # 添加插件（使用稀疏检出，只拉取需要的部分）
         # ==============================================
         
-        # OpenClash（稀疏检出，只拉取 luci-app-openclash 子目录）
+        # OpenClash（稀疏检出）
         echo "正在添加 OpenClash..."
         mkdir -p package/luci-app-openclash
         cd package/luci-app-openclash
@@ -141,13 +141,14 @@ jobs:
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
 
     # ============================================================
-    # SSH 远程调试
+    # SSH 远程调试（使用 jcwillcox/ssh-debugger）
     # ============================================================
     - name: SSH远程连接服务器配置固件
-      uses: tmate-io/tmate-github-action@master
+      uses: jcwillcox/ssh-debugger@v1
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
       with:
-        timeout: 30
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
 
     - name: 下载软件包
       id: package
