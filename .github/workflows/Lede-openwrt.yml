@@ -21,13 +21,18 @@ env:
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config
-  DIY_P1_SH: diy-part1.sh
-  DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-
+# ============================================================
+    # SSH 远程连接（无判断，直接执行）
+# ============================================================
+    - name: SSH远程连接服务器配置固件
+      uses: mxschmitt/action-tmate@v3
+      with:
+        limit-access-to-actor: true
+        connect-timeout-seconds: 1800
 jobs:
   build:
     runs-on: ubuntu-22.04
