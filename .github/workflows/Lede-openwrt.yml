@@ -1,5 +1,4 @@
 #
-#
 # 感谢p3terx大神的一键编译脚本
 # 
 # Copyright (C) 2019 P3TERX <https://p3terx.com>
@@ -97,8 +96,12 @@ jobs:
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
 
+    # ============================================================
+    # SSH 远程调试（替换已失效的 P3TERX/debugger-action）
+    # 使用 mxschmitt/action-tmate（目前可用）
+    # ============================================================
     - name: SSH远程连接服务器配置固件
-      uses: P3TERX/debugger-action@main
+      uses: mxschmitt/action-tmate@v3
       if: env.SSH_ACTIONS == 'true' || contains(github.event.action, 'ssh')
 
     - name: 下载软件包
