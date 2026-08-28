@@ -13,4 +13,4 @@ else
 fi
 
 echo "当前目录: $(pwd)"
-git clone https://github.com/vernesong/OpenClash.git package/OpenClash
+git clone --progress https://github.com/vernesong/OpenClash.git package/OpenClash
